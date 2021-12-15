@@ -3,7 +3,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include <ctime>
+#include <chrono>
 
 using namespace std;
 
@@ -21,18 +21,18 @@ void writeFile(Matrix y, string filename);
 
 int main(int argc, char* argv[])
 {
-    clock_t start_time = clock();
+    auto t_start = std::chrono::high_resolution_clock::now();
 
     Matrix A = readFile("BigA.txt");
     Matrix x = readFile("BigX.txt");
     Matrix y = multiplySequential(A, x);
 
-    // Printing the Matrix
     writeFile(y, "y.txt");
     
-    clock_t end_time = clock();
-    double elapsed_time = double(end_time - start_time);
-    cout << "elapsed time: " << elapsed_time << endl;
+    auto t_end = std::chrono::high_resolution_clock::now();
+    double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
+
+    cout << "elapsed time: " << elapsed_time_ms << endl;
 
 }
 
